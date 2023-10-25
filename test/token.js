@@ -55,10 +55,10 @@ describe("Token Contract", () => {
       const finalBalance = await hardhatToken.balanceOf(owner.address);
       expect(finalBalance).to.equal(initialBalance - 15);
 
-      const addr1Balance = hardhatToken.balanceOf(addr1.address);
+      const addr1Balance = await hardhatToken.balanceOf(addr1.address);
       expect(addr1Balance).to.equal(5);
-      const addr2Balance = hardhatToken.balanceOf(addr2.address);
-      expect(addr2Balance).to.equal(5);
+      const addr2Balance = await hardhatToken.balanceOf(addr2.address);
+      expect(addr2Balance).to.equal(10);
     });
   });
 });
