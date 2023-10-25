@@ -38,13 +38,27 @@ describe("Token Contract", () => {
     });
 
     it("Should fall if sender does not have enough tokens", async () => {
-      const initialbalance = await hardhatToken.balanceOf(owner.address);
+      const initialBalance = await hardhatToken.balanceOf(owner.address);
       await expect(
         hardhatToken.connect(addr1).transfer(addr2.address, 1)
       ).to.be.revertedWith("Not enough tokens");
       expect(await hardhatToken.balanceOf(owner.address)).to.equal(
-        initialbalance
+        initialBalance
       );
+    });
+
+    it("Should update balances after transfers", async () => {
+      const initialBalance = await hardhatToken.balanceOf(owner.address);
+      await hardhatToken.transfer(addr1.address, 5);
+      await hardhatToken.transfer(addr2.address, 10);
+
+      const finalBalance = await hardhatToken.balanceOf(owner.address);
+      expect(finalBalance).to.equal(initialBalance - 15);
+
+      const addr1Balance = hardhatToken.balanceOf(addr1.address);
+      expect(addr1Balance).to.equal(5);
+      const addr2Balance = hardhatToken.balanceOf(addr2.address);
+      expect(addr2Balance).to.equal(5);
     });
   });
 });
